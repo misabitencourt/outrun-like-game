@@ -53,7 +53,9 @@ class MainWindow {
         sound.load();
         sound.play();
         while(keepGoing) {
-            scene.upPressed = scene.downPressed = scene.leftPressed = scene.rightPressed = false;
+            scene.enterPressed = scene.upPressed = scene.downPressed = 
+                scene.leftPressed = scene.rightPressed = false;
+
             while (SDL_PollEvent(&e)) {
                 switch (e.type) {
                     case SDL_KEYDOWN:
@@ -70,6 +72,9 @@ class MainWindow {
                                 break;
                             case SDLK_DOWN:
                                 scene.downPressed = true;
+                                break;
+                            case SDLK_KP_ENTER:
+                                scene.enterPressed = true;
                                 break;
                             default:
                                 break;
@@ -94,9 +99,13 @@ class MainWindow {
             long int start = tp.tv_usec;
             scene.render(ren);
             gameState = scene.calc(gameState);
+            if (gameState == Scene::STATE_EXIT) {
+                keepGoing = false;
+            }
             SDL_RenderPresent(ren);
             gettimeofday(&tp, NULL);
             long int processTime = tp.tv_usec - start;
+            // Log process time
         }
     }
 };

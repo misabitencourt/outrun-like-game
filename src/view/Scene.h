@@ -9,12 +9,14 @@ class Scene {
         std::list<Sprite> sprites;
         std::list<Text> texts;
         static const int STATE_MAIN_MENU = OUTRUN_MAIN_MENU_OPT_1;
+        static const int STATE_EXIT = OUTRUN_MAIN_MENU_OPT_3;
         bool upPressed;
         bool downPressed;
         bool leftPressed;
         bool rightPressed;
         bool actionPressed;
-        int menuState;
+        bool enterPressed;
+        int menuState;        
 
     void load(SDL_Renderer *renderer) {
         std::list<Sprite>::iterator it;
@@ -86,6 +88,9 @@ class Scene {
                         target = SceneConstants::SCENE_MAIN_MENU_MENU_START + (SceneConstants::SCENE_MAIN_MENU_MENU_SPACING * 2);
                         if (itTxt->y != target) {
                             itTxt->y += itTxt->y < target ? 1 : -1;
+                        }
+                        if (enterPressed) {
+                            return STATE_EXIT;
                         }
                         break;
                     default:
