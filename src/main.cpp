@@ -3,7 +3,9 @@
 #include <SDL2/SDL_image.h>
 #include <SDL_ttf.h>
 
+
 #include "./ResPath.h"
+#include "./factory/SceneConstants.h"
 #include "./factory/Entities.h"
 #include "./view/Sound.h"
 #include "./view/Sprite.h"

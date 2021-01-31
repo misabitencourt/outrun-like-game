@@ -1,6 +1,7 @@
 #include <string>
 const unsigned int SCENE_MAIN_MENU = 0;
 
+
 class SceneBuilder {
     public:
         static Scene create(int type) {
@@ -9,22 +10,18 @@ class SceneBuilder {
                 case 0:
                     Text title = SceneBuilder::createDefaultText("CAR RACE GAME", 235, 100);
                     scene.texts.push_back(title);
-
-                    const int MENU_ALIGN = 250;
-                    const int MENU_START = 200;
-                    const int MENU_SPACING = 30;
-
-                    Text arrow = SceneBuilder::createDefaultText(">>", MENU_ALIGN-33, MENU_START);
+                    
+                    Text arrow = SceneBuilder::createDefaultText(">>", SceneConstants::SCENE_MAIN_MENU_MENU_ALIGN-33, SceneConstants::SCENE_MAIN_MENU_MENU_START);
                     arrow.id = Entities::MAIN_MENU_ARROW;
                     scene.texts.push_back(arrow);
 
-                    Text menuOpt1 = SceneBuilder::createDefaultText("Start game", MENU_ALIGN, MENU_START);
+                    Text menuOpt1 = SceneBuilder::createDefaultText("Start game", SceneConstants::SCENE_MAIN_MENU_MENU_ALIGN, SceneConstants::SCENE_MAIN_MENU_MENU_START);
                     scene.texts.push_back(menuOpt1);
 
-                    Text menuOpt2 = SceneBuilder::createDefaultText("Instructions", MENU_ALIGN, MENU_START + MENU_SPACING);
+                    Text menuOpt2 = SceneBuilder::createDefaultText("Instructions", SceneConstants::SCENE_MAIN_MENU_MENU_ALIGN, SceneConstants::SCENE_MAIN_MENU_MENU_START + SceneConstants::SCENE_MAIN_MENU_MENU_SPACING);
                     scene.texts.push_back(menuOpt2);
 
-                    Text menuOpt3 = SceneBuilder::createDefaultText("Quit", MENU_ALIGN, MENU_START + (MENU_SPACING * 2));
+                    Text menuOpt3 = SceneBuilder::createDefaultText("Quit", SceneConstants::SCENE_MAIN_MENU_MENU_ALIGN, SceneConstants::SCENE_MAIN_MENU_MENU_START + (SceneConstants::SCENE_MAIN_MENU_MENU_SPACING * 2));
                     scene.texts.push_back(menuOpt3);
 
                     Sprite car;

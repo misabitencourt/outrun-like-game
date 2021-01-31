@@ -53,7 +53,32 @@ class MainWindow {
         sound.load();
         sound.play();
         while(keepGoing) {
-            while (SDL_PollEvent(&e)){
+            scene.upPressed = scene.downPressed = scene.leftPressed = scene.rightPressed = false;
+            while (SDL_PollEvent(&e)) {
+                switch (e.type) {
+                    case SDL_KEYDOWN:
+                        printf( "Key release detected\n" );
+                        switch (e.key.keysym.sym) {
+                            case SDLK_LEFT:
+                                scene.leftPressed = true;
+                                break;
+                            case SDLK_RIGHT:
+                                scene.rightPressed = true;
+                                break;
+                            case SDLK_UP:
+                                scene.upPressed = true;
+                                break;
+                            case SDLK_DOWN:
+                                scene.downPressed = true;
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
 
                 // Quit
                 if (e.type == SDL_QUIT){
@@ -72,10 +97,6 @@ class MainWindow {
             SDL_RenderPresent(ren);
             gettimeofday(&tp, NULL);
             long int processTime = tp.tv_usec - start;
-            if (processTime < 15) {
-                SDL_Delay(15 - processTime);
-                // scene.clear(ren);
-            }
         }
     }
 };
