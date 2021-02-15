@@ -9,6 +9,7 @@ class Scene {
         std::list<Sprite> sprites;
         std::list<Text> texts;
         static const int STATE_MAIN_MENU = OUTRUN_MAIN_MENU_OPT_1;
+        static const int STATE_INSTRUCTIONS = OUTRUN_MAIN_MENU_OPT_2;
         static const int STATE_EXIT = OUTRUN_MAIN_MENU_OPT_3;
         bool upPressed;
         bool downPressed;
@@ -47,6 +48,10 @@ class Scene {
             case (Scene::STATE_MAIN_MENU):
                 return calcMainMenu();
                 break;
+
+            case (Scene::STATE_INSTRUCTIONS):
+                return calcInstructions();
+                break;
         }
 
         return gameState;
@@ -57,7 +62,6 @@ class Scene {
     int calcMainMenu() {
         std::list<Sprite>::iterator it;
         std::list<Text>::iterator itTxt;
-        printf("\n\n\n");
         for (it = sprites.begin(); it != sprites.end(); ++it) {
             if (it->id == Entities::MAIN_MENU_CAR) {
                 it->y += 1;
@@ -82,6 +86,9 @@ class Scene {
                         target = SceneConstants::SCENE_MAIN_MENU_MENU_START + SceneConstants::SCENE_MAIN_MENU_MENU_SPACING;
                         if (itTxt->y != target) {
                             itTxt->y += itTxt->y < target ? 1 : -1;
+                        }
+                        if (enterPressed) {
+                            return STATE_INSTRUCTIONS;
                         }
                         break;
                     case OUTRUN_MAIN_MENU_OPT_3:
@@ -114,5 +121,14 @@ class Scene {
         }
 
         return Scene::STATE_MAIN_MENU;
+    }
+
+
+    int calcInstructions() {
+        if (enterPressed) {
+            return STATE_MAIN_MENU;
+        }
+
+        return Scene::STATE_INSTRUCTIONS;
     }
 };

@@ -98,10 +98,17 @@ class MainWindow {
             gettimeofday(&tp, NULL);
             long int start = tp.tv_usec;
             scene.render(ren);
-            gameState = scene.calc(gameState);
+            int newGameState = scene.calc(gameState);
+            if (newGameState != gameState) {
+                SDL_DestroyRenderer(ren);
+                ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+                scene = SceneBuilder::create(newGameState);
+                scene.load(ren);
+            }
             if (gameState == Scene::STATE_EXIT) {
                 keepGoing = false;
             }
+            gameState = newGameState;
             SDL_RenderPresent(ren);
             gettimeofday(&tp, NULL);
             long int processTime = tp.tv_usec - start;
