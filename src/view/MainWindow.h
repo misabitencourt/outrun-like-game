@@ -73,8 +73,17 @@ class MainWindow {
                             case SDLK_DOWN:
                                 scene.downPressed = true;
                                 break;
+                            case SDLK_SPACE:
+                                scene.enterPressed = true;
+                                break;
                             case SDLK_KP_ENTER:
                                 scene.enterPressed = true;
+                                break;
+                            case SDLK_RETURN:
+                                scene.enterPressed = true;
+                                break;
+                            case SDLK_ESCAPE:
+                                keepGoing = false;
                                 break;
                             default:
                                 break;
