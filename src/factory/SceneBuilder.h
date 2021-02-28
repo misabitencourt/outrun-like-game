@@ -1,7 +1,4 @@
 #include <string>
-const unsigned int SCENE_MAIN_MENU = 0;
-const unsigned int SCENE_INSTRUCTIONS = 1;
-const unsigned int SCENE_IN_GAME = 3;
 
 class SceneBuilder {
     public:
@@ -84,6 +81,9 @@ class SceneBuilder {
                         car.y = 370;
                         car.image = "kart.png";
                         scene.sprites.push_back(car);
+                        car.state.insert({SCENE_GAME_CAR_SPEED, 0});
+                        car.state.insert({SCENE_GAME_CAR_TURNING, 0});
+                        car.state.insert({SCENE_GAME_CAR_MTS_TRAVELED, 0});
 
                                                
                         

@@ -3,6 +3,14 @@
 #include <SDL2/SDL_image.h>
 #include <SDL_ttf.h>
 
+const unsigned int SCENE_MAIN_MENU = 0;
+const unsigned int SCENE_INSTRUCTIONS = 1;
+const unsigned int SCENE_IN_GAME = 3;
+
+const static int SCENE_GAME_CAR_SPEED = 4;
+const static int SCENE_GAME_CAR_TURNING = 5;
+const static int SCENE_GAME_CAR_MTS_TRAVELED = 6;
+
 
 #include "./ResPath.h"
 #include "./factory/SceneConstants.h"

@@ -67,6 +67,28 @@ class Scene {
     private:
 
     int calcInGame() {
+        std::list<Sprite>::iterator itSprites;        
+        for (itSprites = sprites.begin(); itSprites != sprites.end(); ++itSprites) {
+
+            /**
+             * Car calc 
+             */
+            if (itSprites->id == Entities::MAIN_MENU_CAR) {
+                int speed = itSprites->state[SCENE_GAME_CAR_SPEED];
+
+                if (speed) {
+                    printf("TODO");
+                } else {
+                    itSprites->y += 1;
+                    printf("%d\n", itSprites->y);
+                    if (itSprites->y == 373) {
+                        itSprites->y = 370;
+                    }
+                }
+                continue;
+            }            
+        }
+
         return Scene::IN_GAME_SCENE;
     }
 
