@@ -84,6 +84,7 @@ class SceneBuilder {
                         car.state.insert({SCENE_GAME_CAR_SPEED, 0});
                         car.state.insert({SCENE_GAME_CAR_TURNING, 0});
                         car.state.insert({SCENE_GAME_CAR_MTS_TRAVELED, 0});
+                        car.state.insert({SCENE_GAME_CAR_TOPSPEED, 0});
 
                                                
                         

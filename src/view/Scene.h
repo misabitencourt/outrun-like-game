@@ -6,6 +6,8 @@ const int OUTRUN_MAIN_MENU_OPT_3 = 2;
 
 const int OUTRUN_IN_GAME = 3;
 
+const unsigned int SPEED_DELAY = 50;
+
 class Scene {
     public:
         std::list<Sprite> sprites;
@@ -67,6 +69,9 @@ class Scene {
     private:
 
     int calcInGame() {
+        int speed;
+        int realSpeed;
+        int topSpeed;
         std::list<Sprite>::iterator itSprites;        
         for (itSprites = sprites.begin(); itSprites != sprites.end(); ++itSprites) {
 
@@ -74,19 +79,50 @@ class Scene {
              * Car calc 
              */
             if (itSprites->id == Entities::MAIN_MENU_CAR) {
-                int speed = itSprites->state[SCENE_GAME_CAR_SPEED];
+                // Var extracting
+                speed = itSprites->state[SCENE_GAME_CAR_SPEED];
+                topSpeed = itSprites->state[SCENE_GAME_CAR_TOPSPEED];
+                if (!topSpeed) {
+                    topSpeed = itSprites->state[SCENE_GAME_CAR_TOPSPEED] = 90;
+                }
 
-                if (speed) {
-                    printf("TODO");
+                // Speed force
+                if (upPressed) {
+                    speed += 400;
+                } else {
+                    speed -= 3;
+                    speed = speed < 0 ? 0 : speed;
+                }
+
+                // Lowspeed and stop bouncing animation
+                if (speed > 10) {
+                    itSprites->y = 370;
                 } else {
                     itSprites->y += 1;
-                    printf("%d\n", itSprites->y);
                     if (itSprites->y == 373) {
                         itSprites->y = 370;
                     }
                 }
+
+                // Real speed displayed
+                realSpeed = speed/500;
+
+                // Top speed limit
+                if (realSpeed > topSpeed) {
+                    speed -= 450;
+                    realSpeed = speed/500;               
+                }
+
+                itSprites->state[SCENE_GAME_CAR_SPEED] = speed;
                 continue;
             }            
+        }
+
+        std::list<Text>::iterator itTxt;
+        for (itTxt = texts.begin(); itTxt != texts.end(); ++itTxt) {
+            if (itTxt->id == Entities::IN_GAME_VELOCIMETER) {
+                itTxt->content = std::to_string(realSpeed);
+            }
         }
 
         return Scene::IN_GAME_SCENE;

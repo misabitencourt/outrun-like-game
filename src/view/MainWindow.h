@@ -59,7 +59,6 @@ class MainWindow {
             while (SDL_PollEvent(&e)) {
                 switch (e.type) {
                     case SDL_KEYDOWN:
-                        printf( "Key release detected\n" );
                         switch (e.key.keysym.sym) {
                             case SDLK_LEFT:
                                 scene.leftPressed = true;

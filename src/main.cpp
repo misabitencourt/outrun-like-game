@@ -10,6 +10,7 @@ const unsigned int SCENE_IN_GAME = 3;
 const static int SCENE_GAME_CAR_SPEED = 4;
 const static int SCENE_GAME_CAR_TURNING = 5;
 const static int SCENE_GAME_CAR_MTS_TRAVELED = 6;
+const static int SCENE_GAME_CAR_TOPSPEED = 7;
 
 
 #include "./ResPath.h"
