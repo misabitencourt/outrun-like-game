@@ -4,6 +4,8 @@ const int OUTRUN_MAIN_MENU_OPT_1 = 0;
 const int OUTRUN_MAIN_MENU_OPT_2 = 1;
 const int OUTRUN_MAIN_MENU_OPT_3 = 2;
 
+const int OUTRUN_IN_GAME = 3;
+
 class Scene {
     public:
         std::list<Sprite> sprites;
@@ -11,6 +13,7 @@ class Scene {
         static const int STATE_MAIN_MENU = OUTRUN_MAIN_MENU_OPT_1;
         static const int STATE_INSTRUCTIONS = OUTRUN_MAIN_MENU_OPT_2;
         static const int STATE_EXIT = OUTRUN_MAIN_MENU_OPT_3;
+        static const int IN_GAME_SCENE = OUTRUN_IN_GAME;
         bool upPressed;
         bool downPressed;
         bool leftPressed;
@@ -52,12 +55,20 @@ class Scene {
             case (Scene::STATE_INSTRUCTIONS):
                 return calcInstructions();
                 break;
+
+            case (Scene::IN_GAME_SCENE):
+                return calcInGame();
+                break;
         }
 
         return gameState;
     }
 
     private:
+
+    int calcInGame() {
+        return Scene::IN_GAME_SCENE;
+    }
 
     int calcMainMenu() {
         std::list<Sprite>::iterator it;
@@ -81,7 +92,10 @@ class Scene {
                         if (itTxt->y != SceneConstants::SCENE_MAIN_MENU_MENU_START) {
                             itTxt->y += itTxt->y < SceneConstants::SCENE_MAIN_MENU_MENU_START ? 1 : -1;
                         }
-                        break;  
+                        if (enterPressed) {
+                            return IN_GAME_SCENE;
+                        }
+                        break;
                     case OUTRUN_MAIN_MENU_OPT_2:
                         target = SceneConstants::SCENE_MAIN_MENU_MENU_START + SceneConstants::SCENE_MAIN_MENU_MENU_SPACING;
                         if (itTxt->y != target) {
@@ -97,7 +111,7 @@ class Scene {
                             itTxt->y += itTxt->y < target ? 1 : -1;
                         }
                         if (enterPressed) {
-                            return STATE_EXIT;
+                            return IN_GAME_SCENE;
                         }
                         break;
                     default:

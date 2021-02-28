@@ -1,7 +1,7 @@
 #include <string>
 const unsigned int SCENE_MAIN_MENU = 0;
 const unsigned int SCENE_INSTRUCTIONS = 1;
-
+const unsigned int SCENE_IN_GAME = 3;
 
 class SceneBuilder {
     public:
@@ -57,6 +57,36 @@ class SceneBuilder {
                         scene.texts.push_back(text3);
                         scene.texts.push_back(text4);
                         scene.texts.push_back(text5);
+
+                        return scene;
+                    }
+
+
+
+                case 3:
+                    {
+                        unsigned int firstLine = 13;
+
+                        Text text1 = SceneBuilder::createDefaultText("Speed:", 500, firstLine);
+                        Text text2 = SceneBuilder::createDefaultText("000", 580, firstLine);
+                        text2.id = Entities::IN_GAME_VELOCIMETER;
+
+                        scene.texts.push_back(text1);
+                        scene.texts.push_back(text2);
+
+                        Sprite car;
+                        car.id = Entities::MAIN_MENU_CAR;
+                        car.frame = 4;
+                        car.frameSpeed = 1;
+                        car.height = 100;
+                        car.width = 95;
+                        car.x = 235;
+                        car.y = 370;
+                        car.image = "kart.png";
+                        scene.sprites.push_back(car);
+
+                                               
+                        
 
                         return scene;
                     }
