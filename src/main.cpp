@@ -14,7 +14,13 @@ const static int SCENE_GAME_CAR_TOPSPEED = 7;
 const static int SCENE_GAME_TRACK = 8;
 const static int SCENE_GAME_TRACK_TRAVELED = 9;
 
-const unsigned int TRACKS_DEFAULT_TRACK=0;
+const unsigned int TRACKS_DEFAULT_TRACK = 1;
+
+const unsigned int TRACKS_NO_BEND = 0;
+const unsigned int TRACKS_LEFT_BEND = 1;
+const unsigned int TRACKS_LEFT_BEND_SEVERE = 2;
+const unsigned int TRACKS_RIGHT_BEND = 3;
+const unsigned int TRACKS_RIGNT_BEND_SEVERE = 4;
 
 
 #include "./ResPath.h"

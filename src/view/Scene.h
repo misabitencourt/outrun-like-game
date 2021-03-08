@@ -10,6 +10,7 @@ const unsigned int SPEED_DELAY = 50;
 
 class Scene {
     public:
+        TrackBuilder trackBuilder;
         std::list<Sprite> sprites;
         std::list<Text> texts;
         std::list<Tileset> tilesets;
@@ -93,8 +94,9 @@ class Scene {
         std::list<Tileset>::iterator itTilesets;
         for (itTilesets = tilesets.begin(); itTilesets != tilesets.end(); ++itTilesets) {
             // Track
-            if (itTilesets->id == SCENE_GAME_TRACK) {
-                
+            if (itTilesets->id == Entities::HORIZON) {
+                unsigned short int trackState = trackBuilder.getTrackState(TRACKS_DEFAULT_TRACK, 0);
+                // printf("Track state >>>> %i\n", trackState);       
             }
         }
 
