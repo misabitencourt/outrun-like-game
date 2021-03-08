@@ -1,5 +1,6 @@
 #include <string>
 #include <sys/time.h>
+#include <unistd.h>
 
 class MainWindow {
     public:
@@ -120,7 +121,10 @@ class MainWindow {
             SDL_RenderPresent(ren);
             gettimeofday(&tp, NULL);
             long int processTime = tp.tv_usec - start;
-            // Log process time
+            long int toAwait = processTime - 33;
+            if (toAwait > 0) {
+                usleep(toAwait);
+            }
         }
     }
 };
