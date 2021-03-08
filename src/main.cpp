@@ -18,6 +18,7 @@ const static int SCENE_GAME_CAR_TOPSPEED = 7;
 #include "./factory/Entities.h"
 #include "./view/Sound.h"
 #include "./view/Sprite.h"
+#include "./view/Tileset.h"
 #include "./view/Text.h"
 #include "./view/Scene.h"
 #include "./factory/SceneBuilder.h"

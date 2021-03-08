@@ -64,6 +64,9 @@ class SceneBuilder {
                     {
                         unsigned int firstLine = 13;
 
+                        /**
+                         * Game top text
+                         */
                         Text text1 = SceneBuilder::createDefaultText("Speed:", 500, firstLine);
                         Text text2 = SceneBuilder::createDefaultText("000", 580, firstLine);
                         text2.id = Entities::IN_GAME_VELOCIMETER;
@@ -71,6 +74,33 @@ class SceneBuilder {
                         scene.texts.push_back(text1);
                         scene.texts.push_back(text2);
 
+                        /**
+                         * Horizon background
+                         */
+                        Tileset horizon;
+                        horizon.id = Entities::HORIZON;
+                        horizon.image = "horizon.png";
+                        horizon.height = 160;
+                        horizon.width = 264;
+
+                        unsigned int backgroundRepeatTimes = 3;
+                        for (unsigned int i=0; i<backgroundRepeatTimes; i++) {
+                            TilesetPaint tilesetPaint;
+                            tilesetPaint.x = 0;
+                            tilesetPaint.x = 264 * i;
+                            tilesetPaint.y = 0;
+                            tilesetPaint.tilesetH = 160;
+                            tilesetPaint.tilesetW = 264;
+                            tilesetPaint.tilesetX = 0;
+                            tilesetPaint.tilesetY = 0;
+                            horizon.coords.push_back(tilesetPaint);
+                        }
+
+                        scene.tilesets.push_back(horizon);
+
+                        /**
+                         * Car sprite
+                         */
                         Sprite car;
                         car.id = Entities::MAIN_MENU_CAR;
                         car.frame = 4;

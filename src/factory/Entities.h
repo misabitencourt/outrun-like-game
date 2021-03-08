@@ -5,6 +5,8 @@ class Entities {
         const static int MAIN_MENU_CAR = 2;
         
         const static int IN_GAME_VELOCIMETER = 3;
+
+        const static int HORIZON = 4;
 };
 
 

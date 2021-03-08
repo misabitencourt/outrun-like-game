@@ -12,6 +12,7 @@ class Scene {
     public:
         std::list<Sprite> sprites;
         std::list<Text> texts;
+        std::list<Tileset> tilesets;
         static const int STATE_MAIN_MENU = OUTRUN_MAIN_MENU_OPT_1;
         static const int STATE_INSTRUCTIONS = OUTRUN_MAIN_MENU_OPT_2;
         static const int STATE_EXIT = OUTRUN_MAIN_MENU_OPT_3;
@@ -34,9 +35,19 @@ class Scene {
         for (it2 = texts.begin(); it2 != texts.end(); ++it2){
             it2->load();
         }
+
+        std::list<Tileset>::iterator it3;
+        for (it3 = tilesets.begin(); it3 != tilesets.end(); ++it3){
+            it3->load(renderer);
+        }
     }
 
     void render(SDL_Renderer *renderer) {
+        std::list<Tileset>::iterator it3;
+        for (it3 = tilesets.begin(); it3 != tilesets.end(); ++it3){
+            it3->render(renderer);
+        }
+        
         std::list<Sprite>::iterator it;
         for (it = sprites.begin(); it != sprites.end(); ++it){
             it->render(renderer);
