@@ -96,7 +96,10 @@ class SceneBuilder {
                             horizon.coords.push_back(tilesetPaint);
                         }
 
+                        horizon.state.insert({SCENE_GAME_TRACK, TRACKS_DEFAULT_TRACK});
+                        horizon.state.insert({SCENE_GAME_TRACK_TRAVELED, 0});
                         scene.tilesets.push_back(horizon);
+                        
 
                         /**
                          * Car sprite

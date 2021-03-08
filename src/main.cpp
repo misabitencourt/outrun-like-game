@@ -11,12 +11,18 @@ const static int SCENE_GAME_CAR_SPEED = 4;
 const static int SCENE_GAME_CAR_TURNING = 5;
 const static int SCENE_GAME_CAR_MTS_TRAVELED = 6;
 const static int SCENE_GAME_CAR_TOPSPEED = 7;
+const static int SCENE_GAME_TRACK = 8;
+const static int SCENE_GAME_TRACK_TRAVELED = 9;
+
+const unsigned int TRACKS_DEFAULT_TRACK=0;
 
 
 #include "./ResPath.h"
 #include "./factory/SceneConstants.h"
 #include "./factory/Entities.h"
+#include "./factory/TrackBuilder.h"
 #include "./view/Sound.h"
+#include "./view/Line.h"
 #include "./view/Sprite.h"
 #include "./view/Tileset.h"
 #include "./view/Text.h"

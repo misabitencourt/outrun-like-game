@@ -13,6 +13,7 @@ class Scene {
         std::list<Sprite> sprites;
         std::list<Text> texts;
         std::list<Tileset> tilesets;
+        std::list<Line> lines;
         static const int STATE_MAIN_MENU = OUTRUN_MAIN_MENU_OPT_1;
         static const int STATE_INSTRUCTIONS = OUTRUN_MAIN_MENU_OPT_2;
         static const int STATE_EXIT = OUTRUN_MAIN_MENU_OPT_3;
@@ -44,18 +45,25 @@ class Scene {
 
     void render(SDL_Renderer *renderer) {
         std::list<Tileset>::iterator it3;
-        for (it3 = tilesets.begin(); it3 != tilesets.end(); ++it3){
+        for (it3 = tilesets.begin(); it3 != tilesets.end(); ++it3) {
             it3->render(renderer);
         }
         
         std::list<Sprite>::iterator it;
-        for (it = sprites.begin(); it != sprites.end(); ++it){
+        for (it = sprites.begin(); it != sprites.end(); ++it) {
             it->render(renderer);
         }
         
         std::list<Text>::iterator it2;
-        for (it2 = texts.begin(); it2 != texts.end(); ++it2){
+        for (it2 = texts.begin(); it2 != texts.end(); ++it2) {
             it2->render(renderer);
+        }
+
+        std::list<Line>::iterator it4;
+        for (it4 = lines.begin(); it4 != lines.end(); ++it4) {
+            SDL_SetRenderDrawColor(renderer, it4->colorR, it4->colorG, it4->colorB, SDL_ALPHA_OPAQUE);
+            SDL_RenderDrawLine(renderer, it4->x, it4->y, it4->x2, it4->y2);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         }
     }
 
@@ -79,11 +87,21 @@ class Scene {
 
     private:
 
-    int calcInGame() {
+    int calcInGame() {        
+        int trackTraveled;
+
+        std::list<Tileset>::iterator itTilesets;
+        for (itTilesets = tilesets.begin(); itTilesets != tilesets.end(); ++itTilesets) {
+            // Track
+            if (itTilesets->id == SCENE_GAME_TRACK) {
+                
+            }
+        }
+
         int speed;
         int realSpeed;
         int topSpeed;
-        std::list<Sprite>::iterator itSprites;        
+        std::list<Sprite>::iterator itSprites;
         for (itSprites = sprites.begin(); itSprites != sprites.end(); ++itSprites) {
 
             /**
