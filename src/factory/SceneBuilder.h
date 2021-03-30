@@ -86,7 +86,6 @@ class SceneBuilder {
                         unsigned int backgroundRepeatTimes = 3;
                         for (unsigned int i=0; i<backgroundRepeatTimes; i++) {
                             TilesetPaint tilesetPaint;
-                            tilesetPaint.x = 0;
                             tilesetPaint.x = 264 * i;
                             tilesetPaint.y = 0;
                             tilesetPaint.tilesetH = 160;
@@ -98,6 +97,7 @@ class SceneBuilder {
 
                         horizon.state.insert({SCENE_GAME_TRACK, TRACKS_DEFAULT_TRACK});
                         horizon.state.insert({SCENE_GAME_TRACK_TRAVELED, 0});
+                        horizon.state.insert({SCENE_GAME_TRACK_SCROLL, 0});
                         scene.tilesets.push_back(horizon);
                         
 

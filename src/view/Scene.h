@@ -45,6 +45,13 @@ class Scene {
     }
 
     void render(SDL_Renderer *renderer) {
+        std::list<Line>::iterator it4;
+        for (it4 = lines.begin(); it4 != lines.end(); ++it4) {
+            SDL_SetRenderDrawColor(renderer, it4->colorR, it4->colorG, it4->colorB, SDL_ALPHA_OPAQUE);
+            SDL_RenderDrawLine(renderer, it4->x, it4->y, it4->x2, it4->y2);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+        }
+
         std::list<Tileset>::iterator it3;
         for (it3 = tilesets.begin(); it3 != tilesets.end(); ++it3) {
             it3->render(renderer);
@@ -58,14 +65,7 @@ class Scene {
         std::list<Text>::iterator it2;
         for (it2 = texts.begin(); it2 != texts.end(); ++it2) {
             it2->render(renderer);
-        }
-
-        std::list<Line>::iterator it4;
-        for (it4 = lines.begin(); it4 != lines.end(); ++it4) {
-            SDL_SetRenderDrawColor(renderer, it4->colorR, it4->colorG, it4->colorB, SDL_ALPHA_OPAQUE);
-            SDL_RenderDrawLine(renderer, it4->x, it4->y, it4->x2, it4->y2);
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-        }
+        }        
     }
 
     int calc(int gameState) {
@@ -88,21 +88,11 @@ class Scene {
 
     private:
 
-    int calcInGame() {        
-        int trackTraveled;
-
-        std::list<Tileset>::iterator itTilesets;
-        for (itTilesets = tilesets.begin(); itTilesets != tilesets.end(); ++itTilesets) {
-            // Track
-            if (itTilesets->id == Entities::HORIZON) {
-                unsigned short int trackState = trackBuilder.getTrackState(TRACKS_DEFAULT_TRACK, 0);
-                // printf("Track state >>>> %i\n", trackState);       
-            }
-        }
-
+    int calcInGame() {
         int speed;
         int realSpeed;
         int topSpeed;
+        int trackTraveled;
         std::list<Sprite>::iterator itSprites;
         for (itSprites = sprites.begin(); itSprites != sprites.end(); ++itSprites) {
 
@@ -119,7 +109,7 @@ class Scene {
 
                 // Speed force
                 if (upPressed) {
-                    speed += 400;
+                    speed += 200;
                 } else {
                     speed -= 3;
                     speed = speed < 0 ? 0 : speed;
@@ -153,6 +143,69 @@ class Scene {
         for (itTxt = texts.begin(); itTxt != texts.end(); ++itTxt) {
             if (itTxt->id == Entities::IN_GAME_VELOCIMETER) {
                 itTxt->content = std::to_string(realSpeed);
+            }
+        }
+
+
+        std::list<Tileset>::iterator itTilesets;
+        for (itTilesets = tilesets.begin(); itTilesets != tilesets.end(); ++itTilesets) {
+            // Track
+            if (itTilesets->id == Entities::HORIZON) {
+                unsigned short int trackState = trackBuilder.getTrackState(TRACKS_DEFAULT_TRACK, 0);
+                trackTraveled = itTilesets->state[SCENE_GAME_TRACK_TRAVELED];
+                switch (trackState)
+                {
+                    case 1:                        
+                        break;
+                    
+                    default:
+                        unsigned short int zebra = 0;
+                        unsigned short int zebraApply = 0;
+                        if (lines.empty()) {
+                            for (int y=160; y<480; y++) {
+                                // Stripe height=5, horizonHeight=160, screenHeight=480, screenWidth=640
+                                Line offroadLine;
+                                Line roadLine;
+                                
+                                offroadLine.x = 0;
+                                offroadLine.y = y;
+                                offroadLine.x2 = 640;
+                                offroadLine.y2 = y;
+
+                                roadLine.x = 320 - (y/2);
+                                roadLine.y = y;
+                                roadLine.x2 = 320 + (y/2);
+                                roadLine.y2 = y;
+
+                                zebraApply++;
+                                if (zebraApply == 34) {
+                                    zebraApply = 0;
+                                    zebra = zebra ? 0 : 1;
+                                }
+                                int offroadR=80, offroadG=zebra ? 150 : 120, offroadB=80;
+                                int roadColor=zebra ? 20 : 50;
+
+                                offroadLine.colorR = offroadR;
+                                offroadLine.colorG = offroadG;
+                                offroadLine.colorB = offroadB;
+
+                                roadLine.colorR = roadColor;
+                                roadLine.colorG = roadColor;
+                                roadLine.colorB = roadColor;
+
+                                lines.push_back(offroadLine);
+                                lines.push_back(roadLine);
+                            }
+                        } else {
+                            std::list<Line>::iterator itLines;
+                            int y;
+                            for (itLines = lines.begin(); itLines != lines.end(); ++itLines) {
+                                // TODO running animation
+                            }
+                        }
+                        
+                        break;
+                }
             }
         }
 
