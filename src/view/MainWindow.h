@@ -123,7 +123,7 @@ class MainWindow {
             // long int processTime = tp.tv_usec - start;
             // long int toAwait = processTime - 33;
             // if (toAwait > 0) {
-                // usleep(toAwait);
+                usleep(60);
             // }
         }
     }

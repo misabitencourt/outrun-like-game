@@ -93,6 +93,8 @@ class Scene {
         int realSpeed;
         int topSpeed;
         int trackTraveled;
+        int trackScroll;
+        int trackScrollDelay;
         std::list<Sprite>::iterator itSprites;
         for (itSprites = sprites.begin(); itSprites != sprites.end(); ++itSprites) {
 
@@ -111,7 +113,7 @@ class Scene {
                 if (upPressed) {
                     speed += 200;
                 } else {
-                    speed -= 3;
+                    speed -= 18;
                     speed = speed < 0 ? 0 : speed;
                 }
 
@@ -153,54 +155,78 @@ class Scene {
             if (itTilesets->id == Entities::HORIZON) {
                 unsigned short int trackState = trackBuilder.getTrackState(TRACKS_DEFAULT_TRACK, 0);
                 trackTraveled = itTilesets->state[SCENE_GAME_TRACK_TRAVELED];
+                unsigned short int zebra = 0;
+                unsigned short int zebraApply = 0;
+                if (lines.empty()) {
+                    for (int y=0; y<5000; y++) {
+                        // Stripe height=5, horizonHeight=160, screenHeight=480, screenWidth=640
+                        Line offroadLine;
+                        Line roadLine;
+                        
+                        offroadLine.x = 0;
+                        offroadLine.y = y;
+                        offroadLine.x2 = 640;
+                        offroadLine.y2 = y;
+
+                        roadLine.x = 320 - (y/2);
+                        roadLine.y = y;
+                        roadLine.x2 = 320 + (y/2);
+                        roadLine.y2 = y;
+
+                        zebraApply++;
+                        if (zebraApply == 34) {
+                            zebraApply = 0;
+                            zebra++;
+                            zebra = zebra > 2 ? 0 : zebra;
+                        }
+                        
+                        int roadColor;
+                        offroadLine.colorR = 80;
+                        offroadLine.colorB = 80;
+                        switch (zebra) {
+                            case 0:
+                                offroadLine.colorG = 180;
+                                roadColor = 50;
+                                break;
+                            case 1:
+                                offroadLine.colorG = 150;
+                                roadColor = 30;
+                                break;
+                            default:
+                                offroadLine.colorG = 120;
+                                roadColor = 20;
+                        }
+
+                        roadLine.colorR = roadColor;
+                        roadLine.colorG = roadColor;
+                        roadLine.colorB = roadColor;
+
+                        lines.push_back(offroadLine);
+                        lines.push_back(roadLine);
+                    }
+                    continue;
+                }
                 switch (trackState)
                 {
                     case 1:                        
                         break;
                     
                     default:
-                        unsigned short int zebra = 0;
-                        unsigned short int zebraApply = 0;
-                        if (lines.empty()) {
-                            for (int y=160; y<480; y++) {
-                                // Stripe height=5, horizonHeight=160, screenHeight=480, screenWidth=640
-                                Line offroadLine;
-                                Line roadLine;
-                                
-                                offroadLine.x = 0;
-                                offroadLine.y = y;
-                                offroadLine.x2 = 640;
-                                offroadLine.y2 = y;
-
-                                roadLine.x = 320 - (y/2);
-                                roadLine.y = y;
-                                roadLine.x2 = 320 + (y/2);
-                                roadLine.y2 = y;
-
-                                zebraApply++;
-                                if (zebraApply == 34) {
-                                    zebraApply = 0;
-                                    zebra = zebra ? 0 : 1;
-                                }
-                                int offroadR=80, offroadG=zebra ? 150 : 120, offroadB=80;
-                                int roadColor=zebra ? 20 : 50;
-
-                                offroadLine.colorR = offroadR;
-                                offroadLine.colorG = offroadG;
-                                offroadLine.colorB = offroadB;
-
-                                roadLine.colorR = roadColor;
-                                roadLine.colorG = roadColor;
-                                roadLine.colorB = roadColor;
-
-                                lines.push_back(offroadLine);
-                                lines.push_back(roadLine);
-                            }
-                        } else {
-                            std::list<Line>::iterator itLines;
+                        std::list<Line>::iterator itLines;
+                        if (realSpeed) {
                             int y;
                             for (itLines = lines.begin(); itLines != lines.end(); ++itLines) {
-                                // TODO running animation
+                                y = itLines->y + 1;
+                                if (y > 480) {
+                                    y = 0;
+                                }
+                                itLines->y = itLines->y2 = y;
+                                if (itLines->x) {
+                                    itLines->x = 320 - (y/2);
+                                    itLines->y = y;
+                                    itLines->x2 = 320 + (y/2);
+                                    itLines->y2 = y;
+                                }
                             }
                         }
                         

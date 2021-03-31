@@ -97,7 +97,6 @@ class SceneBuilder {
 
                         horizon.state.insert({SCENE_GAME_TRACK, TRACKS_DEFAULT_TRACK});
                         horizon.state.insert({SCENE_GAME_TRACK_TRAVELED, 0});
-                        horizon.state.insert({SCENE_GAME_TRACK_SCROLL, 0});
                         scene.tilesets.push_back(horizon);
                         
 
