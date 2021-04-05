@@ -19,6 +19,7 @@ class Scene {
         static const int STATE_INSTRUCTIONS = OUTRUN_MAIN_MENU_OPT_2;
         static const int STATE_EXIT = OUTRUN_MAIN_MENU_OPT_3;
         static const int IN_GAME_SCENE = OUTRUN_IN_GAME;
+        int menuDelay;
         bool upPressed;
         bool downPressed;
         bool leftPressed;
@@ -111,10 +112,23 @@ class Scene {
 
                 // Speed force
                 if (upPressed) {
-                    speed += 200;
+                    speed += 80;
                 } else {
-                    speed -= 18;
+                    speed -= 60;
                     speed = speed < 0 ? 0 : speed;
+                }
+
+                // Turning
+                if (leftPressed) {
+                    itSprites->x -= 3;
+                    if (itSprites->x < 20) {
+                        itSprites->x = 20;
+                    }
+                } else if (rightPressed) {
+                    itSprites->x += 3;
+                    if (itSprites->x > 520) {
+                        itSprites->x = 520;
+                    }
                 }
 
                 // Lowspeed and stop bouncing animation
@@ -215,10 +229,18 @@ class Scene {
                         std::list<Line>::iterator itLines;
                         if (realSpeed) {
                             int y;
+                            int scrollSpeed = 1;
+                            if (realSpeed > 90) {
+                                scrollSpeed = 7;
+                            } else if (realSpeed > 50) {
+                                scrollSpeed = 5;
+                            } else if (realSpeed > 30) {
+                                scrollSpeed = 2;
+                            }
                             for (itLines = lines.begin(); itLines != lines.end(); ++itLines) {
-                                y = itLines->y + 1;
+                                y = itLines->y + scrollSpeed;
                                 if (y > 480) {
-                                    y = 0;
+                                    y = 0 + (y - 480);
                                 }
                                 itLines->y = itLines->y2 = y;
                                 if (itLines->x) {
@@ -290,9 +312,15 @@ class Scene {
 
         // Menu arrows
         if (upPressed) {
-            menuState -= 1;
+            if (++menuDelay == 50) {
+                menuState -= 1;
+            }
         } else if (downPressed) {
-            menuState += 1;
+            if (++menuDelay == 50) {
+                menuState += 1;
+            }
+        } else {
+            menuDelay = 0;
         }
 
         // Circular menu

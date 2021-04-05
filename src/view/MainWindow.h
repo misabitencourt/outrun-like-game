@@ -53,12 +53,45 @@ class MainWindow {
         sound.musicPath = "resources/sound/music.ogg";
         sound.load();
         sound.play();
-        while(keepGoing) {
-            scene.enterPressed = scene.upPressed = scene.downPressed = 
+
+        scene.enterPressed = scene.upPressed = scene.downPressed = 
                 scene.leftPressed = scene.rightPressed = false;
+                
+        while(keepGoing) {           
 
             while (SDL_PollEvent(&e)) {
                 switch (e.type) {
+                    case SDL_KEYUP:
+                        switch (e.key.keysym.sym) {
+                            case SDLK_LEFT:
+                                scene.leftPressed = false;
+                                break;
+                            case SDLK_RIGHT:
+                                scene.rightPressed = false;
+                                break;
+                            case SDLK_UP:
+                                scene.upPressed = false;
+                                break;
+                            case SDLK_DOWN:
+                                scene.downPressed = false;
+                                break;
+                            case SDLK_SPACE:
+                                scene.enterPressed = false;
+                                break;
+                            case SDLK_KP_ENTER:
+                                scene.enterPressed = false;
+                                break;
+                            case SDLK_RETURN:
+                                scene.enterPressed = false;
+                                break;
+                            case SDLK_ESCAPE:
+                                keepGoing = false;
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+
                     case SDL_KEYDOWN:
                         switch (e.key.keysym.sym) {
                             case SDLK_LEFT:
@@ -103,15 +136,17 @@ class MainWindow {
                 break;
             }
             SDL_RenderClear(ren);
-            // struct timeval tp;
-            // gettimeofday(&tp, NULL);
-            // long int start = tp.tv_usec;
+            struct timeval tp;
+            gettimeofday(&tp, NULL);
+            long int start = tp.tv_usec;
             scene.render(ren);
             int newGameState = scene.calc(gameState);
             if (newGameState != gameState) {
                 SDL_DestroyRenderer(ren);
                 ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
                 scene = SceneBuilder::create(newGameState);
+                scene.enterPressed = scene.upPressed = scene.downPressed = 
+                        scene.leftPressed = scene.rightPressed = false;
                 scene.load(ren);
             }
             if (gameState == Scene::STATE_EXIT) {
@@ -119,12 +154,12 @@ class MainWindow {
             }
             gameState = newGameState;
             SDL_RenderPresent(ren);
-            // gettimeofday(&tp, NULL);
-            // long int processTime = tp.tv_usec - start;
-            // long int toAwait = processTime - 33;
-            // if (toAwait > 0) {
-                usleep(60);
-            // }
+            gettimeofday(&tp, NULL);
+            long int processTime = tp.tv_usec - start;
+            long int toAwait = processTime - 33;
+            if (toAwait > 0) {
+                usleep(toAwait);
+            }
         }
     }
 };
