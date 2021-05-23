@@ -15,6 +15,7 @@ class SceneBuilder {
                         scene.texts.push_back(arrow);
 
                         Text menuOpt1 = SceneBuilder::createDefaultText("Start game", SceneConstants::SCENE_MAIN_MENU_MENU_ALIGN, SceneConstants::SCENE_MAIN_MENU_MENU_START);
+                        menuOpt1.id = 0;
                         scene.texts.push_back(menuOpt1);
 
                         Text menuOpt2 = SceneBuilder::createDefaultText("Instructions", SceneConstants::SCENE_MAIN_MENU_MENU_ALIGN, SceneConstants::SCENE_MAIN_MENU_MENU_START + SceneConstants::SCENE_MAIN_MENU_MENU_SPACING);
