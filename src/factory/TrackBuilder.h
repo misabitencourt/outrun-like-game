@@ -33,6 +33,7 @@ class TrackBuilder {
                 default:
                     break;
             }
+            return {};
         }
 
         unsigned short int getTrackState(unsigned int trackId, int traveled) {
