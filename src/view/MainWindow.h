@@ -135,10 +135,7 @@ class MainWindow {
                 
                 break;
             }
-            SDL_RenderClear(ren);
-            struct timeval tp;
-            gettimeofday(&tp, NULL);
-            long int start = tp.tv_usec;
+            SDL_RenderClear(ren);        
             scene.render(ren);
             int newGameState = scene.calc(gameState);
             if (newGameState != gameState) {
@@ -154,12 +151,6 @@ class MainWindow {
             }
             gameState = newGameState;
             SDL_RenderPresent(ren);
-            gettimeofday(&tp, NULL);
-            long int processTime = tp.tv_usec - start;
-            long int toAwait = processTime - 33;
-            if (toAwait > 0) {
-                usleep(toAwait);
-            }
         }
     }
 };
