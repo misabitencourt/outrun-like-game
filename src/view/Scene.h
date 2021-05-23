@@ -230,14 +230,7 @@ class Scene {
                         std::list<Line>::iterator itLines;
                         if (realSpeed) {
                             int y;
-                            int scrollSpeed = 1;
-                            if (realSpeed > 90) {
-                                scrollSpeed = 7;
-                            } else if (realSpeed > 50) {
-                                scrollSpeed = 5;
-                            } else if (realSpeed > 30) {
-                                scrollSpeed = 2;
-                            }
+                            int scrollSpeed = realSpeed / 5;
                             for (itLines = lines.begin(); itLines != lines.end(); ++itLines) {
                                 y = itLines->y + scrollSpeed;
                                 if (y > 480) {
