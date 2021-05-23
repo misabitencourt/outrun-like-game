@@ -11,4 +11,7 @@ class Line {
         int colorG;
         int colorB;
         int colorA;
+
+        int bend;
+        int type;
 };

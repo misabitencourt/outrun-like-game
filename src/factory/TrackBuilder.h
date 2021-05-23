@@ -11,14 +11,14 @@ class TrackBuilder {
 
             /**
              * 0 = NO BEND
-             * 1 = LEFT BEND
-             * 2 = LEFT SEREVE BEND
-             * 3 = RIGHT BEND
-             * 4 = RIGHT SEVERE BEND
+             * 2 = LEFT BEND
+             * 3 = LEFT SEREVE BEND
+             * 4 = RIGHT BEND
+             * 5 = RIGHT SEVERE BEND
              */ 
             switch (trackType) {
                 case TRACKS_DEFAULT_TRACK:
-                    return { 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    return { 0, 0, 4, 4, 4, 4, 4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

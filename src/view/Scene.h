@@ -8,6 +8,8 @@ const int OUTRUN_IN_GAME = 3;
 
 const unsigned int SPEED_DELAY = 50;
 
+const int OUTRUN_ROAD_LINE = 1;
+
 class Scene {
     public:
         TrackBuilder trackBuilder;
@@ -49,7 +51,30 @@ class Scene {
         std::list<Line>::iterator it4;
         for (it4 = lines.begin(); it4 != lines.end(); ++it4) {
             SDL_SetRenderDrawColor(renderer, it4->colorR, it4->colorG, it4->colorB, SDL_ALPHA_OPAQUE);
-            SDL_RenderDrawLine(renderer, it4->x, it4->y, it4->x2, it4->y2);
+            if (it4->bend && it4->type == OUTRUN_ROAD_LINE) {
+
+                
+                if (it4->bend > 3) {
+                    
+                    // Turn left
+                    int bending = ((it4->bend-2) * 100) - (it4->y / 2);
+                    int x1 = it4->x - (bending * 2);
+                    int x2 = it4->x2 - bending;
+                    SDL_RenderDrawLine(renderer, x1, it4->y, x2, it4->y2);
+
+                } else {
+
+                    // Turn right
+                    int bending = (it4->bend * 100) - (it4->y / 2);
+                    int x1 = it4->x + bending;
+                    int x2 = it4->x2 + (bending*2);
+                    SDL_RenderDrawLine(renderer, x1, it4->y, x2, it4->y2);
+                }
+
+                
+            } else {
+                SDL_RenderDrawLine(renderer, it4->x, it4->y, it4->x2, it4->y2);
+            }
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         }
 
@@ -168,8 +193,11 @@ class Scene {
         for (itTilesets = tilesets.begin(); itTilesets != tilesets.end(); ++itTilesets) {
             // Track
             if (itTilesets->id == Entities::HORIZON) {
-                unsigned short int trackState = trackBuilder.getTrackState(TRACKS_DEFAULT_TRACK, 0);
                 trackTraveled = itTilesets->state[SCENE_GAME_TRACK_TRAVELED];
+                trackTraveled += realSpeed;
+                itTilesets->state[SCENE_GAME_TRACK_TRAVELED] = trackTraveled;
+                unsigned short int trackState = trackBuilder.getTrackState(TRACKS_DEFAULT_TRACK, trackTraveled/8000);
+                printf(">>>> %d \n", trackTraveled/8000);
                 unsigned short int zebra = 0;
                 unsigned short int zebraApply = 0;
                 if (lines.empty()) {
@@ -187,6 +215,7 @@ class Scene {
                         roadLine.y = y;
                         roadLine.x2 = 320 + (y/2);
                         roadLine.y2 = y;
+                        roadLine.type = OUTRUN_ROAD_LINE;
 
                         zebraApply++;
                         if (zebraApply == 21) {
@@ -241,6 +270,7 @@ class Scene {
                             int y;
                             int scrollSpeed = realSpeed / 5;
                             for (itLines = lines.begin(); itLines != lines.end(); ++itLines) {
+                                itLines->bend = trackState;
                                 y = itLines->y + scrollSpeed;
                                 if (y > 480) {
                                     y = 0 + (y - 480);
