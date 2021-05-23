@@ -65,6 +65,7 @@ class Scene {
         
         std::list<Text>::iterator it2;
         for (it2 = texts.begin(); it2 != texts.end(); ++it2) {
+            it2->clear();       
             it2->render(renderer);
         }        
     }
@@ -269,7 +270,6 @@ class Scene {
                 if (it->y == 303) {
                     it->y = 300;
                 }
-                continue;
             }            
         }
 
@@ -280,7 +280,7 @@ class Scene {
                 switch (menuState) {
                     case OUTRUN_MAIN_MENU_OPT_1:
                         if (itTxt->y != SceneConstants::SCENE_MAIN_MENU_MENU_START) {
-                            itTxt->y += itTxt->y < SceneConstants::SCENE_MAIN_MENU_MENU_START ? 1 : -1;
+                            itTxt->y += itTxt->y < SceneConstants::SCENE_MAIN_MENU_MENU_START ? 3 : -3;
                         }
                         if (enterPressed) {
                             return IN_GAME_SCENE;
@@ -289,7 +289,7 @@ class Scene {
                     case OUTRUN_MAIN_MENU_OPT_2:
                         target = SceneConstants::SCENE_MAIN_MENU_MENU_START + SceneConstants::SCENE_MAIN_MENU_MENU_SPACING;
                         if (itTxt->y != target) {
-                            itTxt->y += itTxt->y < target ? 1 : -1;
+                            itTxt->y += itTxt->y < target ? 3 : -3;
                         }
                         if (enterPressed) {
                             return STATE_INSTRUCTIONS;
@@ -298,10 +298,10 @@ class Scene {
                     case OUTRUN_MAIN_MENU_OPT_3:
                         target = SceneConstants::SCENE_MAIN_MENU_MENU_START + (SceneConstants::SCENE_MAIN_MENU_MENU_SPACING * 2);
                         if (itTxt->y != target) {
-                            itTxt->y += itTxt->y < target ? 1 : -1;
+                            itTxt->y += itTxt->y < target ? 3 : -3;
                         }
                         if (enterPressed) {
-                            return IN_GAME_SCENE;
+                            exit(0);
                         }
                         break;
                     default:
@@ -312,11 +312,11 @@ class Scene {
 
         // Menu arrows
         if (upPressed) {
-            if (++menuDelay == 50) {
+            if (++menuDelay == 3) {
                 menuState -= 1;
             }
         } else if (downPressed) {
-            if (++menuDelay == 50) {
+            if (++menuDelay == 3) {
                 menuState += 1;
             }
         } else {

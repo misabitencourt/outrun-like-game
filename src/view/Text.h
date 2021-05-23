@@ -10,6 +10,8 @@ class Text {
         int transitionSpeed = 1;
         int transitionToX = -1;
         int transitionToY = -1;
+        bool modified = true;
+        bool rendered = false;
         TTF_Font* font;
         SDL_Surface* textSurface;
         std::string fontFile;
@@ -47,9 +49,14 @@ class Text {
             }
             x = transitionToY > x ? (transitionSpeed * -1) : transitionSpeed;
         }
+
+        rendered = true;
     }
 
     void clear() {
+        if (!rendered) {
+            return;
+        }
         SDL_DestroyTexture(texture);
         SDL_FreeSurface(surface);
     }
