@@ -189,10 +189,10 @@ class Scene {
                         roadLine.y2 = y;
 
                         zebraApply++;
-                        if (zebraApply == 34) {
+                        if (zebraApply == 21) {
                             zebraApply = 0;
                             zebra++;
-                            zebra = zebra > 2 ? 0 : zebra;
+                            zebra = zebra > 4 ? 0 : zebra;
                         }
                         
                         int roadColor;
@@ -201,15 +201,24 @@ class Scene {
                         switch (zebra) {
                             case 0:
                                 offroadLine.colorG = 180;
-                                roadColor = 50;
+                                roadColor = 40;
                                 break;
                             case 1:
-                                offroadLine.colorG = 150;
+                                offroadLine.colorG = 170;
                                 roadColor = 30;
                                 break;
-                            default:
-                                offroadLine.colorG = 120;
+                            case 2:
+                                offroadLine.colorG = 160;
                                 roadColor = 20;
+                                break;
+                            case 3:
+                                offroadLine.colorG = 170;
+                                roadColor = 30;
+                                break;
+                            case 4:
+                                offroadLine.colorG = 180;
+                                roadColor = 40;
+                                break;
                         }
 
                         roadLine.colorR = roadColor;
