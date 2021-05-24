@@ -57,7 +57,7 @@ class Scene {
                 if (it4->bend > 3) {
                     
                     // Turn left
-                    int bending = ((it4->bend-2) * 100) - (it4->y / 2);
+                    int bending = ((it4->bend-2) * 80) - (it4->y / 2);
                     int x1 = it4->x - (bending * 2);
                     int x2 = it4->x2 - bending;
                     SDL_RenderDrawLine(renderer, x1, it4->y, x2, it4->y2);
@@ -65,7 +65,7 @@ class Scene {
                 } else {
 
                     // Turn right
-                    int bending = (it4->bend * 100) - (it4->y / 2);
+                    int bending = (it4->bend * 80) - (it4->y / 2);
                     int x1 = it4->x + bending;
                     int x2 = it4->x2 + (bending*2);
                     SDL_RenderDrawLine(renderer, x1, it4->y, x2, it4->y2);
@@ -140,21 +140,29 @@ class Scene {
                 if (upPressed) {
                     speed += 80;
                 } else {
-                    speed -= 60;
+                    speed -= 80;
                     speed = speed < 0 ? 0 : speed;
                 }
 
                 // Turning
                 if (leftPressed) {
+                    itSprites->frame = 2;
                     itSprites->x -= 3;
+                    speed -= 120;
+                    speed = speed < 0 ? 0 : speed;
                     if (itSprites->x < 20) {
                         itSprites->x = 20;
                     }
                 } else if (rightPressed) {
+                    itSprites->frame = 3;
                     itSprites->x += 3;
+                    speed -= 120;
+                    speed = speed < 0 ? 0 : speed;
                     if (itSprites->x > 520) {
                         itSprites->x = 520;
                     }
+                } else {
+                    itSprites->frame = 4;
                 }
 
                 // Lowspeed and stop bouncing animation
@@ -197,9 +205,21 @@ class Scene {
                 trackTraveled += realSpeed;
                 itTilesets->state[SCENE_GAME_TRACK_TRAVELED] = trackTraveled;
                 unsigned short int trackState = trackBuilder.getTrackState(TRACKS_DEFAULT_TRACK, trackTraveled/8000);
-                printf(">>>> %d \n", trackTraveled/8000);
+                // printf(">>>> %d \n", trackTraveled/8000); // DEBUG utility
                 unsigned short int zebra = 0;
                 unsigned short int zebraApply = 0;
+                if (trackState > 0) {
+                    for (itSprites = sprites.begin(); itSprites != sprites.end(); ++itSprites) {
+                        if (itSprites->id == Entities::MAIN_MENU_CAR) {
+                            if (trackState > 3) {
+                                itSprites->x += 1 + (realSpeed / 35);
+                            } else {
+                                itSprites->x -= 1 + (realSpeed / 35);                                
+                            }
+                            break;
+                        }
+                    }
+                }
                 if (lines.empty()) {
                     for (int y=0; y<5000; y++) {
                         // Stripe height=5, horizonHeight=160, screenHeight=480, screenWidth=640
@@ -259,33 +279,22 @@ class Scene {
                     }
                     continue;
                 }
-                switch (trackState)
-                {
-                    case 1:                        
-                        break;
-                    
-                    default:
-                        std::list<Line>::iterator itLines;
-                        if (realSpeed) {
-                            int y;
-                            int scrollSpeed = realSpeed / 5;
-                            for (itLines = lines.begin(); itLines != lines.end(); ++itLines) {
-                                itLines->bend = trackState;
-                                y = itLines->y + scrollSpeed;
-                                if (y > 480) {
-                                    y = 0 + (y - 480);
-                                }
-                                itLines->y = itLines->y2 = y;
-                                if (itLines->x) {
-                                    itLines->x = 320 - (y/2);
-                                    itLines->y = y;
-                                    itLines->x2 = 320 + (y/2);
-                                    itLines->y2 = y;
-                                }
-                            }
-                        }
-                        
-                        break;
+                std::list<Line>::iterator itLines;
+                int y;
+                int scrollSpeed = realSpeed / 5;
+                for (itLines = lines.begin(); itLines != lines.end(); ++itLines) {
+                    itLines->bend = trackState;
+                    y = itLines->y + scrollSpeed;
+                    if (y > 480) {
+                        y = 0 + (y - 480);
+                    }
+                    itLines->y = itLines->y2 = y;
+                    if (itLines->x) {
+                        itLines->x = 320 - (y/2);
+                        itLines->y = y;
+                        itLines->x2 = 320 + (y/2);
+                        itLines->y2 = y;
+                    }
                 }
             }
         }
