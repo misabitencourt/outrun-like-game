@@ -137,12 +137,9 @@ class Scene {
                 }
 
                 // Speed force
-                if (upPressed) {
-                    speed += 80;
-                } else {
-                    speed -= 80;
-                    speed = speed < 0 ? 0 : speed;
-                }
+                speed +=  upPressed ? 80 : (-80);
+                speed -= (itSprites->x < 80 || itSprites->x > 480) ? 55 : 0; // Offroad
+                speed = speed < 0 ? 0 : speed; // Stopped
 
                 // Turning
                 if (leftPressed) {
@@ -213,8 +210,14 @@ class Scene {
                         if (itSprites->id == Entities::MAIN_MENU_CAR) {
                             if (trackState > 3) {
                                 itSprites->x += 1 + (realSpeed / 35);
+                                if (itSprites->x > 520) {
+                                    itSprites->x = 520;
+                                }
                             } else {
                                 itSprites->x -= 1 + (realSpeed / 35);                                
+                                if (itSprites->x < 20) {
+                                    itSprites->x = 20;
+                                }
                             }
                             break;
                         }
